@@ -50,46 +50,23 @@ var app = http.createServer(function (req, res){
                                    
                                    'var chart = new Highcharts.Chart({\n'+
                                         'chart: {\n'+
-                                            // "dateFormat('%Y-%m-%d %H:%M:%S', this.x),"+
                                              "renderTo: 'container',\n"+
                                              "zoomType: 'xy',\n"+
                                              "events: {\n"+
                                                   "load: function(){\n"+
-                                                       //"var cat;\n"+
-                                                       //"var tol;\n"+
-                                                       //"var ser;\n"+
-                                                       //"var sec;\n"+
+
                                                        "var series0=this.series[0];\n"+
                                                        "var series1=this.series[1];\n"+
                                                        "var series2=this.series[2];\n"+
-                                                    //   "alert(this.categories[]);\n"+
-                                                       //"socket.on('all', function(data){data;\n"+
-                                                         //             'cat=data[0];\n'+
-                                                           //           'tol=data[1];\n'+
-                                                             //         'ser=data[2];\n'+
-                                                               //       'sec=data[3];\n'+
-                                                                 //"});\n"+
+           
 
                                                        "socket.on('all', function(data){\n"+
-                                                            //'if (data.newdata=="New data is coming..."){\n'+
-                                                                 //"function Point(){\n"+
-                                                                 //'alert(data[1])\n'+
+
                                                                       "series0.addPoint([data[3],data[2]],false, false);\n"+
                                                                       "series1.addPoint([data[3],data[1]],false, false);\n"+
                                                                       "series2.addPoint([data[3],data[0]],true, false);\n"+
                                                                       //'chart.redraw();\n'+
-                                                                      //"this.series[1].addPoint(tol, true, true);\n"+
-                                                                      //"this.series[2].addPoint(ser, true, true);\n"+
-                                                                      //"setTimeout(function(), 1000);\n"+    
-                                                                 //"}\n"+
-                                                                 
-                                                                 /*'setInterval(function(){\n'+
-                                                                      //'var x = cat;\n'+
-                                                                      //'var y = sec;\n'+
-                                                                      
-                                                                      'series0.addPoint([data[0],data[3]], true, true);\n'+
-                                                                 '}, 1000);\n'+*/
-                                                            //"}\n"+
+                                                                     
                                                        "});\n"+ 
                                                   "}\n"+
                                              "}\n"+
