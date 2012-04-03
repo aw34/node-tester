@@ -30,43 +30,48 @@ var app = http.createServer(function (req, res){
                               'function status_update(txt){document.getElementById("status").innerHTML = txt;}\n'+
 
                      		'function send1(){'+
-                                   'if (!floodIsOn){'+
-                    			'socket.send("linear")}'+
+                                        'var data=[];\n'+
+                                        'data[0]=document.getElementById("field1").value;\n'+
+                                        'data[1]=document.getElementById("field2").value;\n'+
+
+                                   'if( ((parseFloat(data[0]) == parseInt(data[0])) && !isNaN(data[0])) && ((parseFloat(data[1]) == parseInt(data[1])) && !isNaN(data[1])) ){\n'+
+                                        'if (!floodIsOn){\n'+
+
+                                        'socket.emit("linear", data);\n'+
+                                        '}\n'+
+                                        '} else {alert("Please enter both numbers, integer only")}\n'+
                     		'}'+
 
                     		'function send2(){'+
-                    			'socket.send("log")'+
-                    		'}'+
+                                   'var data=[];\n'+
+                                        'data[0]=document.getElementById("field1").value;\n'+
+                                        'data[1]=document.getElementById("field2").value;\n'+
 
-                    		'function send3(){'+
-                    			'socket.send("exp")'+
-                    		'}'+
+                                   'if( ((parseFloat(data[0]) == parseInt(data[0])) && !isNaN(data[0])) && ((parseFloat(data[1]) == parseInt(data[1])) && !isNaN(data[1])) ){\n'+
+                                        'if (!floodIsOn){\n'+
 
-                    		'function send4(){'+
-                    			'socket.send("null")'+
+                                        'socket.emit("log", data);\n'+
+                                        '}\n'+
+                                        '} else {alert("Please enter both numbers, integer only")}\n'+
                     		'}'+
 
                               '$(document).ready(function() {\n'+
                                    
                                    'var chart = new Highcharts.Chart({\n'+
                                         'chart: {\n'+
+                                            // "dateFormat('%Y-%m-%d %H:%M:%S', this.x),"+
                                              "renderTo: 'container',\n"+
                                              "zoomType: 'xy',\n"+
                                              "events: {\n"+
                                                   "load: function(){\n"+
-
                                                        "var series0=this.series[0];\n"+
                                                        "var series1=this.series[1];\n"+
                                                        "var series2=this.series[2];\n"+
-           
 
                                                        "socket.on('all', function(data){\n"+
-
                                                                       "series0.addPoint([data[3],data[2]],false, false);\n"+
                                                                       "series1.addPoint([data[3],data[1]],false, false);\n"+
                                                                       "series2.addPoint([data[3],data[0]],true, false);\n"+
-                                                                      //'chart.redraw();\n'+
-                                                                     
                                                        "});\n"+ 
                                                   "}\n"+
                                              "}\n"+
@@ -156,16 +161,18 @@ var app = http.createServer(function (req, res){
                     	'</script>'+
 
                          '<div align=center><p id="status">Waiting for testing...</p></div>'+
-                         
-                         //'<script src="http://code.highcharts.com/modules/exporting.js"></script>'+
+
                          '<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>'+
+
+                         '<p align=center>'+
+                         'numberofrequest: <input type="text" id="field1" ></input>'+
+                         'Intervaltime: <input type="text" id="field2" value= ></input>'+
+                         '</p>'+
 
                          '<br/>'+
                          '<p align=center>'+
                               '<button onclick="send1()" id="send1">Low Load</button>'+
 					     '<button onclick="send2()" id="send2">High Load</button>'+
-					     //'<button onclick="send3()" id="send3">ExponentFunction</button>'+
-				          //'<button onclick="send4()" id="send4">Null</button>'+
                          '</p>'+
 				'</body>'+
 			 '</html>';
